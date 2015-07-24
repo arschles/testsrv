@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"time"
 
-	"code.google.com/p/go-uuid/uuid"
+	"github.com/arschles/httpsub/Godeps/_workspace/src/code.google.com/p/go-uuid/uuid"
 )
 
 const (
@@ -68,7 +68,7 @@ func (s *Subscriber) AcceptN(n int, maxWait time.Duration) []*ReceivedRequest {
 		case recvReq := <-s.ch:
 			ret = append(ret, recvReq)
 		case <-tmr:
-			break
+			return ret
 		}
 	}
 	return ret
