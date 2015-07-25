@@ -1,4 +1,4 @@
-package httpsub
+package testsrv
 
 import (
 	"net/http"
@@ -26,12 +26,12 @@ type ReceivedRequest struct {
 // Subscriber is a HTTP server that you can send real HTTP requests to
 // in your unit tests. In addition to the functionality of net/http/httptest,
 // it allows callers to easily retrieve the requests that came into the server
-type Subscriber struct {
+type Server struct {
 	ch  chan *ReceivedRequest
 	srv *httptest.Server
 }
 
-func StartSubscriber(handler http.Handler) *Subscriber {
+func StartServer(handler http.Handler) *Server {
 	ch := make(chan *ReceivedRequest)
 	wrappedHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		u := uuid.New()
@@ -44,23 +44,23 @@ func StartSubscriber(handler http.Handler) *Subscriber {
 		handler.ServeHTTP(w, r)
 	})
 	s := httptest.NewServer(wrappedHandler)
-	return &Subscriber{ch: ch, srv: s}
+	return &Server{ch: ch, srv: s}
 }
 
 // Close releases all resources on this subscriber
-func (s *Subscriber) Close() {
+func (s *Server) Close() {
 	s.srv.Close()
 }
 
 // URLStr returns the string representation of the URL to call to hit this server
-func (s *Subscriber) URLStr() string {
+func (s *Server) URLStr() string {
 	return s.srv.URL
 }
 
 // AcceptN consumes and returns up to n requests that were sent to the server
 // before maxWait is up. returns all of the requests received. each individual
 // request returned will not be returned by this func again.
-func (s *Subscriber) AcceptN(n int, maxWait time.Duration) []*ReceivedRequest {
+func (s *Server) AcceptN(n int, maxWait time.Duration) []*ReceivedRequest {
 	var ret []*ReceivedRequest
 	tmr := time.After(maxWait)
 	for i := 0; i < n; i++ {

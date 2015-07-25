@@ -1,4 +1,4 @@
-package httpsub
+package testsrv
 
 import (
 	"net/http"
