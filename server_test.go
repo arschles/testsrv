@@ -9,14 +9,14 @@ import (
 )
 
 func TestNoMsgs(t *testing.T) {
-	sub := StartSubscriber(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	srv := StartServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 	}))
 	recvCh := make(chan []*ReceivedRequest)
 	// ensure that it returns after waitTime
 	waitTime := 10 * time.Millisecond
 	go func() {
-		recvCh <- sub.AcceptN(20, waitTime)
+		recvCh <- srv.AcceptN(20, waitTime)
 	}()
 	select {
 	case recv := <-recvCh:
