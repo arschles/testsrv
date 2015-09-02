@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"time"
 
-	"github.com/arschles/httpsub/Godeps/_workspace/src/code.google.com/p/go-uuid/uuid"
+	"github.com/arschles/testsrv/Godeps/_workspace/src/code.google.com/p/go-uuid/uuid"
 )
 
 const (

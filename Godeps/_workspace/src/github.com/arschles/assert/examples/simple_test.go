@@ -2,8 +2,9 @@ package examples
 
 import (
 	"errors"
-	"github.com/arschles/httpsub/Godeps/_workspace/src/github.com/arschles/assert"
 	"testing"
+
+	"github.com/arschles/testsrv/Godeps/_workspace/src/github.com/arschles/assert"
 )
 
 func TestNil(t *testing.T) {
