@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/arschles/testsrv/Godeps/_workspace/src/github.com/arschles/assert"
+	"github.com/arschles/assert"
 )
 
 func TestNoMsgs(t *testing.T) {
