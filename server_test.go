@@ -12,6 +12,7 @@ func TestNoMsgs(t *testing.T) {
 	srv := StartServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 	}))
+	defer srv.Close()
 	recvCh := make(chan []*ReceivedRequest)
 	// ensure that it returns after waitTime
 	waitTime := 10 * time.Millisecond
