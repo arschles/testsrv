@@ -29,6 +29,8 @@ func StartServer(handler http.Handler) *Server {
 		u := uuid.New()
 		w.Header().Add(UUIDHeaderName, u)
 		handler.ServeHTTP(w, r)
+		flusher := w.(http.Flusher) // TODO: what if you can't convert to a Flusher?
+		flusher.Flush()
 		req := &ReceivedRequest{Request: r, Time: time.Now(), UUID: u}
 		select {
 		case <-closeSig:
@@ -48,9 +50,9 @@ func StartServer(handler http.Handler) *Server {
 // Close releases all resources on this subscriber
 func (s *Server) Close() {
 	if atomic.CompareAndSwapInt64(&s.closed, 0, 1) {
+		close(s.closeSig)
 		s.srv.Close()
 		s.srv.CloseClientConnections()
-		close(s.closeSig)
 		return
 	}
 }
@@ -76,4 +78,5 @@ func (s *Server) AcceptN(n int, maxWait time.Duration) []*ReceivedRequest {
 			return ret
 		}
 	}
+	return ret
 }

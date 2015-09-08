@@ -99,19 +99,15 @@ func TestConcurrentSend(t *testing.T) {
 }
 
 func TestHandlerSleep(t *testing.T) {
-	const numSends = 100
+	const numSends = 10
 	ch := make(chan struct{})
 	srv := StartServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		flsh, ok := w.(http.Flusher)
-		if ok {
-			flsh.Flush()
-		} else {
-			t.Errorf("[WARNING] this test is gonna hang - can't flush output to client")
-		}
+		w.(http.Flusher).Flush()
 		<-ch
 	}))
 	defer srv.Close()
+	defer close(ch)
 
 	var wg sync.WaitGroup
 	for i := 0; i < numSends; i++ {
@@ -129,7 +125,6 @@ func TestHandlerSleep(t *testing.T) {
 			}
 		}()
 	}
-
 	wgChan := make(chan struct{})
 	go func() {
 		wg.Wait()
@@ -142,5 +137,4 @@ func TestHandlerSleep(t *testing.T) {
 	}
 	recv := srv.AcceptN(numSends, 10*time.Millisecond)
 	assert.Equal(t, 0, len(recv), "num received messages")
-	close(ch) // free all of the waiting handlers
 }
