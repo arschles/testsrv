@@ -138,3 +138,16 @@ func TestHandlerSleep(t *testing.T) {
 	recv := srv.AcceptN(numSends, 10*time.Millisecond)
 	assert.Equal(t, 0, len(recv), "num received messages")
 }
+
+func TestConcurrenctClose(t *testing.T) {
+	srv := StartServer(http.HandlerFunc(func(http.ResponseWriter, *http.Request) {}))
+	var wg sync.WaitGroup
+	for i := 0; i < 100; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			srv.Close()
+		}()
+	}
+	wg.Wait()
+}

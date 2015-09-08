@@ -3,6 +3,7 @@ package testsrv
 import (
 	"net/http"
 	"net/http/httptest"
+	"sync"
 	"sync/atomic"
 	"time"
 
@@ -14,6 +15,7 @@ import (
 // request after your handler finishes execution. You can later retreive details about each
 // received request
 type Server struct {
+	lck      sync.Locker
 	closed   int64
 	closeSig chan struct{} // closed when Close is called
 	ch       chan *ReceivedRequest
@@ -40,6 +42,7 @@ func StartServer(handler http.Handler) *Server {
 
 	s := httptest.NewServer(wrapper)
 	return &Server{
+		lck:      &sync.Mutex{},
 		closed:   0,
 		closeSig: closeSig,
 		ch:       ch,
@@ -50,6 +53,8 @@ func StartServer(handler http.Handler) *Server {
 // Close releases all resources on this subscriber
 func (s *Server) Close() {
 	if atomic.CompareAndSwapInt64(&s.closed, 0, 1) {
+		s.lck.Lock()
+		defer s.lck.Unlock()
 		close(s.closeSig)
 		s.srv.Close()
 		s.srv.CloseClientConnections()
