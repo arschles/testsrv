@@ -7,7 +7,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"code.google.com/p/go-uuid/uuid"
+	"github.com/pborman/uuid"
 )
 
 // Server is a HTTP server that you can send real HTTP requests to in your unit tests.
