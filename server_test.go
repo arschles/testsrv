@@ -29,7 +29,6 @@ func TestNoMsgs(t *testing.T) {
 	case <-time.After(recvWaitTime):
 		t.Errorf("AcceptN didn't return after [%+v]", recvWaitTime)
 	}
-	t.Fatalf("let's see what happens when we fail a test in Azure pipelines!")
 }
 
 func TestMsgs(t *testing.T) {
