@@ -29,7 +29,6 @@ func TestNoMsgs(t *testing.T) {
 	case <-time.After(recvWaitTime):
 		t.Errorf("AcceptN didn't return after [%+v]", recvWaitTime)
 	}
-	t.Fatalf("what happens when we fail in a PR?")
 }
 
 func TestMsgs(t *testing.T) {
