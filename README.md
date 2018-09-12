@@ -25,3 +25,20 @@ Since `StartServer` takes in any `http.Handler` it's fairly flexible. Possible a
 
 - Testing your own handlers. For example, in situations where [`httptest.ResponseRecorder`](http://godoc.org/net/http/httptest#ResponseRecorder) doesn't meet your needs
 - Testing your code that makes its own HTTP requests (for example, an external API call)
+
+# Development
+
+To run tests, you can run the following if you have the Go toolchain installed.
+
+```go
+go test ./...
+```
+
+But if you have [Docker](https://www.docker.com/) and 
+[Docker Compose](https://docs.docker.com/compose/), you don't need to do that.
+You can run:
+
+```console
+docker-compose -p testsrv up tests
+```
+

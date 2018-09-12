@@ -1,0 +1,9 @@
+version: '3'
+services:
+  test:
+    image: golang:1.11
+    command: ["go", "test", "./..."]
+    environment:
+      GOPATH: /go
+    volumes:
+      - .:/go/src/github.com/arschles/testsrv
