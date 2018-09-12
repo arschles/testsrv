@@ -40,6 +40,12 @@ But if you have [Docker](https://www.docker.com/) and
 You can run:
 
 ```console
-docker-compose -p testsrv up test
+docker-compose -p testsrv up --exit-code-from test --abort-on-container-exit test
+```
+
+If you do the `docker-compose` command, make sure to clean up afterwards:
+
+```console
+docker-compose -p testsrv down
 ```
 
