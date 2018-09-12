@@ -10,7 +10,7 @@ variables:
   imageName: 'testsrv:$(build.buildId)'
 
 steps:
-- script: |
-    docker-compose -p testsrv up --exit-code-from test --abort-on-container-exit test
-    docker-compose -p testsrv down
+- script: docker-compose -p testsrv up --exit-code-from test --abort-on-container-exit test && \
   displayName: 'test'
+- script: docker-compose -p testsrv down
+  displayName: 'cleanup'
