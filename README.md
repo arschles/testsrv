@@ -39,6 +39,6 @@ But if you have [Docker](https://www.docker.com/) and
 You can run:
 
 ```console
-docker-compose -p testsrv up tests
+docker-compose -p testsrv up test
 ```
 
