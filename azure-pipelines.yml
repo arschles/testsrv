@@ -11,6 +11,6 @@ variables:
 
 steps:
 - script: |
-    docker-compose -p testsrv up test
+    docker-compose -p testsrv up --exit-code-from test --abort-on-container-exit test
     docker-compose -p testsrv down
   displayName: 'test'
