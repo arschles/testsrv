@@ -1,7 +1,7 @@
 # testsrv
 
 [![GoDoc](https://godoc.org/github.com/arschles/testsrv?status.svg)](https://godoc.org/github.com/arschles/testsrv)
-[![Build Status](https://dev.azure.com/arschles/testsrv/_apis/build/status/testsrv.site)](https://dev.azure.com/arschles/testsrv/_build?definitionId=1)
+[![Build Status](https://dev.azure.com/arschles/testsrv/_apis/build/status/arschles.testsrv)](https://dev.azure.com/arschles/testsrv/_build/latest?definitionId=1)
 
 `testsrv` is a library for running real HTTP servers in the same process as
 [Go](http://golang.org) tests, and inspecting the requests that the servers received.
